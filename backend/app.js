@@ -32,8 +32,8 @@ const corsOptions = {
 // Создание приложения
 const app = express();
 
-app.use(cors(corsOptions));
-app.options('*', cors(corsOptions));
+app.use(cors());
+app.options('*', cors());
 
 app.use(helmet());
 app.use(bodyParser.json());
