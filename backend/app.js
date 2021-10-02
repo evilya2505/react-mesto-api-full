@@ -40,9 +40,13 @@ app.use('/', (req, res, next) => {
   const requestHeaders = req.headers['access-control-request-headers'];
   const DEFAULT_ALLOWED_METHODS = 'GET,HEAD,PUT,PATCH,POST,DELETE';
 
-  // устанавливаем заголовок, который разрешает браузеру запросы с этого источника
-  res.header('Access-Control-Allow-Origin', origin);
+  console.log(origin);
 
+  if (allowedCors.includes(origin)) {
+    console.log('here');
+    // устанавливаем заголовок, который разрешает браузеру запросы с этого источника
+    res.header('Access-Control-Allow-Origin', origin);
+  }
 
   if (method === 'OPTIONS') {
     // разрешаем кросс-доменные запросы любых типов (по умолчанию)
