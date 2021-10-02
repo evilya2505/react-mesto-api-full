@@ -22,16 +22,6 @@ const allowedCors = [
 // Создание приложения
 const app = express();
 
-app.use(helmet());
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
-
-// Подключение к серверу mongo
-mongoose.connect('mongodb://localhost:27017/mestodb');
-
-// Подключение логгера запросов
-app.use(requestLogger);
-
 // Разрешает доступ с определенных ресурсов & Обрабатывает предварительные запросы
 app.use((req, res, next) => {
   const { origin } = req.headers;
@@ -40,10 +30,7 @@ app.use((req, res, next) => {
   const requestHeaders = req.headers['access-control-request-headers'];
   const DEFAULT_ALLOWED_METHODS = 'GET,HEAD,PUT,PATCH,POST,DELETE';
 
-  console.log(origin);
-
   if (allowedCors.includes(origin)) {
-    console.log('here');
     // устанавливаем заголовок, который разрешает браузеру запросы с этого источника
     res.header('Access-Control-Allow-Origin', origin);
   }
@@ -59,6 +46,16 @@ app.use((req, res, next) => {
 
   next();
 });
+
+app.use(helmet());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
+// Подключение к серверу mongo
+mongoose.connect('mongodb://localhost:27017/mestodb');
+
+// Подключение логгера запросов
+app.use(requestLogger);
 
 // Регистрация и логин
 app.post('/signup', celebrate({
