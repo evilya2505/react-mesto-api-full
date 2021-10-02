@@ -49,11 +49,12 @@ function App() {
 
   // Эффект, вызываемый при монтировании компонента, совершает запрос в API за пользовательскими данными
   React.useEffect(() => {
+    console.log('here');
     if (loggedIn) {
       api.getInitialData(token)
       .then(([ userData, cardsData ]) => {
-        setCurrentUser(userData);
-        setCards(cardsData);
+        setCurrentUser(userData.data);
+        setCards(cardsData.data);
       })
       .catch((err) => {
         console.log(err);

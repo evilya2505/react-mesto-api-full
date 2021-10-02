@@ -29,7 +29,7 @@ function Main({ onEditAvatar, cards, onCardClick, onCardLike, onDeleteBtn, onAdd
         {/* Cards Section */}
         <section className="cards content__cards">
           <ul className="cards__list">
-            {cards.map(card => {
+            {Array.isArray(cards) && cards.map(card => {
               return (<Card card={card}
                             onCardClick={onCardClick}
                             key={card._id}

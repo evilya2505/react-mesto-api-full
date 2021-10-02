@@ -135,7 +135,6 @@ class Api {
 const api = new Api({
   baseUrl: 'https://api.evilya.nomoredomains.club',
   headers: {
-    'Accept': 'application/json',
     'Content-Type': 'application/json'
   }
 });
