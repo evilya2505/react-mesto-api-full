@@ -13,30 +13,39 @@ class Api {
   }
 
   // Получает карточки с сервера
-  _getInitialCards() {
+  _getInitialCards(token) {
     return fetch(`${this._baseUrl}/cards`, {
-      headers: this._headers
+      headers: {
+        ...this._headers,
+        Authorization: `Bearer ${token}`
+      }
     })
       .then(this._getRequestResult);
   }
 
   // Получает информацию о пользователе с сервера
-  _getUserInfo() {
+  _getUserInfo(token) {
     return fetch(`${this._baseUrl}/users/me`, {
-      headers: this._headers
+      headers: {
+        ...this._headers,
+        Authorization: `Bearer ${token}`
+      }
     })
       .then(this._getRequestResult);
   }
 
-  getInitialData() {
-    return Promise.all([this._getUserInfo(), this._getInitialCards()]);
+  getInitialData(token) {
+    return Promise.all([this._getUserInfo(token), this._getInitialCards(token)]);
   }
 
   // Добавляет карточку на сервер
-  postCard(cardData) {
+  postCard(cardData, token) {
     return fetch(`${this._baseUrl}/cards`, {
       method: 'POST',
-      headers: this._headers,
+      headers: {
+        ...this._headers,
+        Authorization: `Bearer ${token}`
+      },
       body: JSON.stringify({
         name: cardData.placeName,
         link: cardData.link
@@ -46,19 +55,25 @@ class Api {
   }
 
   // Удаление карточки с сервера
-  deleteCard(cardData) {
+  deleteCard(cardData, token) {
     return fetch(`${this._baseUrl}/cards/${cardData._id}`, {
       method: 'DELETE',
-      headers: this._headers
+      headers: {
+        ...this._headers,
+        Authorization: `Bearer ${token}`
+      }
     })
     .then(this._getRequestResult);
   }
 
   // Сохранение отредактированной информации о пользователе
-  updateUserInfo(newUserInfo) {
+  updateUserInfo(newUserInfo, token) {
     return fetch(`${this._baseUrl}/users/me`, {
       method: 'PATCH',
-      headers: this._headers,
+      headers: {
+        ...this._headers,
+        Authorization: `Bearer ${token}`
+      },
       body: JSON.stringify({
         name: newUserInfo.name,
         about: newUserInfo.about
@@ -68,10 +83,13 @@ class Api {
   }
 
   // Обновление аватарки на сервере
-  updateUserAvatar(newUserAvatar) {
+  updateUserAvatar(newUserAvatar, token) {
     return fetch(`${this._baseUrl}/users/me/avatar`, {
       method: 'PATCH',
-      headers: this._headers,
+      headers: {
+        ...this._headers,
+        Authorization: `Bearer ${token}`
+      },
       body: JSON.stringify({
         avatar: newUserAvatar.avatar
       })
@@ -80,29 +98,35 @@ class Api {
   }
 
   // Сохранить информацию о том, что поставлен лайк
-  putLike(cardID) {
+  putLike(cardID, token) {
     return fetch(`${this._baseUrl}/cards/likes/${cardID}`, {
       method: 'PUT',
-      headers: this._headers
+      headers: {
+        ...this._headers,
+        Authorization: `Bearer ${token}`
+      }
     })
     .then(this._getRequestResult);
   }
 
   // Сохранить информацию о том, что лайк был убран
-  removeLike(cardID) {
+  removeLike(cardID, token) {
     return fetch(`${this._baseUrl}/cards/likes/${cardID}`, {
       method: 'DELETE',
-      headers: this._headers
+      headers: {
+        ...this._headers,
+        Authorization: `Bearer ${token}`
+      }
     })
     .then(this._getRequestResult);
   }
 
 
-  changeLikeCardStatus(cardID, isLiked) {
+  changeLikeCardStatus(cardID, isLiked, token) {
     if (!isLiked) {
-      return this.putLike(cardID);
+      return this.putLike(cardID, token);
     } else {
-      return this.removeLike(cardID);
+      return this.removeLike(cardID, token);
     }
   }
 }

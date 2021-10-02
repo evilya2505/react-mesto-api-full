@@ -41,13 +41,16 @@ function App() {
   // Стейт-переменная, содержит информацию о том, успешно ли прошла регистрация или вход или нет
   const [isSuccessed, setIsSuccessed] = React.useState(false);
 
+  // Хранит токен текущего пользователя
+  const [token, setToken] = React.useState('');
+
   const history = useHistory();
   const location = useLocation();
 
   // Эффект, вызываемый при монтировании компонента, совершает запрос в API за пользовательскими данными
   React.useEffect(() => {
     if (loggedIn) {
-      api.getInitialData()
+      api.getInitialData(token)
       .then(([ userData, cardsData ]) => {
         setCurrentUser(userData);
         setCards(cardsData);
@@ -56,11 +59,12 @@ function App() {
         console.log(err);
       });
     }
-  },[loggedIn]);
+  },[loggedIn, token]);
 
   React.useEffect(() => {
     if (localStorage.getItem('token')) {
       const jwt = localStorage.getItem('token');
+      setToken(jwt);
       // Прооверяет, действителен ли токен и возвращает email пользователя
       auth.getContent(jwt)
       .then((data) => {
@@ -140,7 +144,7 @@ function App() {
   function handleUpdateUser(userData) {
     setIsLoading(true);
 
-    api.updateUserInfo(userData)
+    api.updateUserInfo(userData, token)
       .then((newUserData) => {
         setCurrentUser(newUserData);
         closeAllPopups();
@@ -156,7 +160,7 @@ function App() {
   function handleCardLike(card) {
     const isLiked = card.likes.some(i => i._id === currentUser._id);
 
-    api.changeLikeCardStatus(card._id, isLiked)
+    api.changeLikeCardStatus(card._id, isLiked, token)
       .then((newCard) => {
         // Создает новый массив с заменой измененной карточки на новую
         setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
@@ -169,7 +173,7 @@ function App() {
   function handleCardDelete(card) {
     setIsLoading(true);
 
-    api.deleteCard(card)
+    api.deleteCard(card, token)
       .then(() => {
         // Создает копию массива без удаленной карточки
         setCards((state) => state.filter((c) => c._id !== card._id));
@@ -188,7 +192,7 @@ function App() {
   function handleAvatarUpate(url) {
     setIsLoading(true);
 
-    api.updateUserAvatar(url)
+    api.updateUserAvatar(url, token)
       .then((data) => {
         setCurrentUser(data);
         closeAllPopups();
@@ -205,7 +209,7 @@ function App() {
   function handleAddPlaceSubmit(newCardData) {
     setIsLoading(true);
 
-    api.postCard(newCardData)
+    api.postCard(newCardData, token)
       .then((newCard) => {
         setCards([newCard, ...cards]);
         closeAllPopups();
