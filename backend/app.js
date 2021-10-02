@@ -4,6 +4,7 @@ const express = require('express');
 const helmet = require('helmet');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+const cors = require('cors');
 
 const { login, createUser } = require('./controllers/users');
 const auth = require('./middlewares/auth');
@@ -18,35 +19,20 @@ const allowedCors = [
   'http://evilya.nomoredomains.club',
   'http://api.evilya.nomoredomains.club',
 ];
+const corsOptions = {
+  origin: (origin, callback) => {
+    if (allowedCors.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+};
 
 // Создание приложения
 const app = express();
 
-// Разрешает доступ с определенных ресурсов & Обрабатывает предварительные запросы
-app.use((req, res, next) => {
-  const { origin } = req.headers;
-  const { method } = req;
-  // сохраняем список заголовков исходного запроса
-  const requestHeaders = req.headers['access-control-request-headers'];
-  const DEFAULT_ALLOWED_METHODS = 'GET,HEAD,PUT,PATCH,POST,DELETE';
-
-  if (allowedCors.includes(origin)) {
-    // устанавливаем заголовок, который разрешает браузеру запросы с этого источника
-    res.header('Access-Control-Allow-Origin', origin);
-    return res.end();
-  }
-
-  if (method === 'OPTIONS') {
-    // разрешаем кросс-доменные запросы любых типов (по умолчанию)
-    res.header('Access-Control-Allow-Methods', DEFAULT_ALLOWED_METHODS);
-    // разрешаем кросс-доменные запросы с этими заголовками
-    res.header('Access-Control-Allow-Headers', requestHeaders);
-    // завершаем обработку запроса и возвращаем результат клиенту
-    return res.end();
-  }
-
-  next();
-});
+app.use(cors(corsOptions));
 
 app.use(helmet());
 app.use(bodyParser.json());
