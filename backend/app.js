@@ -14,7 +14,7 @@ const { PORT = 3000 } = process.env;
 const allowedCors = [
   'https://evilya.nomoredomains.club',
   'https://api.evilya.nomoredomains.club',
-  'localhost:3000',
+  'http://localhost:3000/',
   'http://evilya.nomoredomains.club',
   'http://api.evilya.nomoredomains.club',
 ];
