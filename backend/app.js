@@ -11,6 +11,12 @@ const { requestLogger, errorLogger } = require('./middlewares/logger');
 
 const { PORT = 3000 } = process.env;
 
+const allowedCors = [
+  'https://62.84.116.155',
+  'localhost:3000',
+  'http://62.84.116.155',
+];
+
 // Создание приложения
 const app = express();
 
@@ -23,6 +29,35 @@ mongoose.connect('mongodb://localhost:27017/mestodb');
 
 // Подключение логгера запросов
 app.use(requestLogger);
+
+// Проверяет, найден ли источник в списке разрешенных и разрешает доступ, если найден
+app.use('/', (req, res, next) => {
+  const { origin } = req.headers;
+
+  if (allowedCors.includes(origin)) {
+    res.header('Access-Control-Allow-Origin', origin);
+  }
+
+  next();
+});
+
+// Обработка предварительных запросов
+app.use('/', (req, res, next) => {
+  const { method } = req;
+  // сохраняем список заголовков исходного запроса
+  const requestHeaders = req.headers['access-control-request-headers'];
+
+  const DEFAULT_ALLOWED_METHODS = 'GET,HEAD,PUT,PATCH,POST,DELETE';
+
+  if (method === 'OPTIONS') {
+    // разрешаем кросс-доменные запросы любых типов (по умолчанию)
+    res.header('Access-Control-Allow-Methods', DEFAULT_ALLOWED_METHODS);
+    // разрешаем кросс-доменные запросы с этими заголовками
+    res.header('Access-Control-Allow-Headers', requestHeaders);
+    // завершаем обработку запроса и возвращаем результат клиенту
+    return res.end();
+  }
+});
 
 // Регистрация и логин
 app.post('/signup', celebrate({

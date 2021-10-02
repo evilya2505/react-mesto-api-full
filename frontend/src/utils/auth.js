@@ -52,6 +52,6 @@ class Auth {
   }
 }
 
-const auth = new Auth({baseUrl: 'https://auth.nomoreparties.co'});
+const auth = new Auth({baseUrl: 'http://62.84.116.155:3000'});
 
 export default auth;
