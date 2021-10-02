@@ -33,7 +33,7 @@ mongoose.connect('mongodb://localhost:27017/mestodb');
 app.use(requestLogger);
 
 // Разрешает доступ с определенных ресурсов & Обрабатывает предварительные запросы
-app.use('/', (req, res, next) => {
+app.use((req, res, next) => {
   const { origin } = req.headers;
   const { method } = req;
   // сохраняем список заголовков исходного запроса
