@@ -52,6 +52,6 @@ class Auth {
   }
 }
 
-const auth = new Auth({baseUrl: 'http://62.84.116.155:3000'});
+const auth = new Auth({baseUrl: 'https://api.evilya.nomoredomains.club'});
 
 export default auth;

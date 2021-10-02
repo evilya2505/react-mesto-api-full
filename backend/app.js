@@ -12,9 +12,11 @@ const { requestLogger, errorLogger } = require('./middlewares/logger');
 const { PORT = 3000 } = process.env;
 
 const allowedCors = [
-  'https://62.84.116.155',
+  'https://evilya.nomoredomains.club',
+  'https://api.evilya.nomoredomains.club',
   'localhost:3000',
-  'http://62.84.116.155',
+  'http://evilya.nomoredomains.club',
+  'http://api.evilya.nomoredomains.club',
 ];
 
 // Создание приложения
@@ -30,6 +32,7 @@ mongoose.connect('mongodb://localhost:27017/mestodb');
 // Подключение логгера запросов
 app.use(requestLogger);
 
+// Разрешает доступ с определенных ресурсов & Обрабатывает предварительные запросы
 app.use('/', (req, res, next) => {
   const { origin } = req.headers;
   const { method } = req;
@@ -37,7 +40,10 @@ app.use('/', (req, res, next) => {
   const requestHeaders = req.headers['access-control-request-headers'];
   const DEFAULT_ALLOWED_METHODS = 'GET,HEAD,PUT,PATCH,POST,DELETE';
 
-  res.header('Access-Control-Allow-Origin', origin);
+  if (allowedCors.includes(origin)) {
+    // устанавливаем заголовок, который разрешает браузеру запросы с этого источника
+    res.header('Access-Control-Allow-Origin', origin);
+  }
 
   if (method === 'OPTIONS') {
     // разрешаем кросс-доменные запросы любых типов (по умолчанию)

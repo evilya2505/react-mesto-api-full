@@ -109,7 +109,7 @@ class Api {
 
 // Создание экземпляра класса Api
 const api = new Api({
-  baseUrl: 'http://62.84.116.155:3000',
+  baseUrl: 'https://api.evilya.nomoredomains.club',
   headers: {
     'Accept': 'application/json',
     'Content-Type': 'application/json'
