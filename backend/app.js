@@ -30,24 +30,14 @@ mongoose.connect('mongodb://localhost:27017/mestodb');
 // Подключение логгера запросов
 app.use(requestLogger);
 
-// Проверяет, найден ли источник в списке разрешенных и разрешает доступ, если найден
 app.use('/', (req, res, next) => {
   const { origin } = req.headers;
-
-  if (allowedCors.includes(origin)) {
-    res.header('Access-Control-Allow-Origin', origin);
-  }
-
-  next();
-});
-
-// Обработка предварительных запросов
-app.use('/', (req, res, next) => {
   const { method } = req;
   // сохраняем список заголовков исходного запроса
   const requestHeaders = req.headers['access-control-request-headers'];
-
   const DEFAULT_ALLOWED_METHODS = 'GET,HEAD,PUT,PATCH,POST,DELETE';
+
+  res.header('Access-Control-Allow-Origin', origin);
 
   if (method === 'OPTIONS') {
     // разрешаем кросс-доменные запросы любых типов (по умолчанию)
@@ -57,6 +47,8 @@ app.use('/', (req, res, next) => {
     // завершаем обработку запроса и возвращаем результат клиенту
     return res.end();
   }
+
+  next();
 });
 
 // Регистрация и логин
