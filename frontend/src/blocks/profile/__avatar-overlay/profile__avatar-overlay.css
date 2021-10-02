@@ -1,0 +1,24 @@
+.profile__avatar-overlay {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background-color: #000;
+  opacity: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.profile__avatar-overlay::after {
+  content: "";
+  display: block;
+  background-image: url(../../../images/update-icon.svg);
+  width: 26px;
+  height: 26px;
+}
+
+.profile__avatar-overlay:hover {
+  opacity: .8;
+}

@@ -1,0 +1,30 @@
+.form__agree-btn {
+  margin: 38px 0 36px;
+  padding: 0;
+  min-height: 50px;
+  background-color: black;
+  color: white;
+  border: none;
+  border-radius: 2px;
+  font-size: 18px;
+  line-height: 22px;
+  font-weight: normal;
+  cursor: pointer;
+  width: 100%;
+}
+
+.form__agree-btn:hover {
+  -webkit-transition: opacity .5s linear 0s;
+  -o-transition: opacity .5s linear 0s;
+  transition: opacity .5s linear 0s;
+  opacity: .8;
+}
+
+@media screen and (max-width: 574px) {
+  .form__agree-btn  {
+    min-height: 46px;
+    font-size: 14px;
+    line-height: 17px;
+    margin: 45px 0 25px;
+  }
+}

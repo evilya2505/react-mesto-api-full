@@ -1,0 +1,10 @@
+.header__list-item {
+  font-family: "Inter";
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 22px;
+}
+
+.header__list-item:not(:last-of-type) {
+  margin-right: 24px;
+}

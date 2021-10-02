@@ -1,0 +1,9 @@
+.header__list-link {
+  text-decoration: none;
+  color: #fff;
+}
+
+.header__list-link:hover {
+  transition: opacity .5s linear 0s;
+  opacity: .6;
+}

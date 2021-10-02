@@ -1,0 +1,9 @@
+.profile__avatar-container {
+  position: relative;
+  width: 120px;
+  min-height: 120px;
+  height: 1px;
+  border-radius: 100px;
+  overflow: hidden;
+  cursor: pointer;
+}
