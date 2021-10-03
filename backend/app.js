@@ -1,7 +1,7 @@
 require('dotenv').config();
 const { celebrate, Joi, errors } = require('celebrate');
 const express = require('express');
-const helmet = require('helmet');
+//const helmet = require('helmet');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cors = require('cors');
@@ -12,30 +12,13 @@ const { requestLogger, errorLogger } = require('./middlewares/logger');
 
 const { PORT = 3000 } = process.env;
 
-const allowedCors = [
-  'https://evilya.nomoredomains.club',
-  'https://api.evilya.nomoredomains.club',
-  'http://localhost:3000/',
-  'http://evilya.nomoredomains.club',
-  'http://api.evilya.nomoredomains.club',
-];
-const corsOptions = {
-  origin: (origin, callback) => {
-    if (allowedCors.indexOf(origin) !== -1) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
-};
-
 // Создание приложения
 const app = express();
 
-app.use(cors());
 app.options('*', cors());
+app.use(cors());
 
-app.use(helmet());
+//app.use(helmet());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
