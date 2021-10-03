@@ -49,10 +49,11 @@ function App() {
 
   // Эффект, вызываемый при монтировании компонента, совершает запрос в API за пользовательскими данными
   React.useEffect(() => {
-    console.log('here');
     if (loggedIn) {
       api.getInitialData(token)
       .then(([ userData, cardsData ]) => {
+        cardsData.data.reverse();
+
         setCurrentUser(userData.data);
         setCards(cardsData.data);
       })
@@ -146,7 +147,9 @@ function App() {
     setIsLoading(true);
 
     api.updateUserInfo(userData, token)
-      .then((newUserData) => {
+      .then((data) => {
+        const newUserData = data.data;
+
         setCurrentUser(newUserData);
         closeAllPopups();
       })
@@ -159,10 +162,11 @@ function App() {
   }
 
   function handleCardLike(card) {
-    const isLiked = card.likes.some(i => i._id === currentUser._id);
+    const isLiked = card.likes.some(i => i === currentUser._id);
 
     api.changeLikeCardStatus(card._id, isLiked, token)
-      .then((newCard) => {
+      .then((data) => {
+        const newCard = data.data;
         // Создает новый массив с заменой измененной карточки на новую
         setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
       })
@@ -195,7 +199,7 @@ function App() {
 
     api.updateUserAvatar(url, token)
       .then((data) => {
-        setCurrentUser(data);
+        setCurrentUser(data.data);
         closeAllPopups();
       })
       .catch((err) => {
@@ -211,7 +215,9 @@ function App() {
     setIsLoading(true);
 
     api.postCard(newCardData, token)
-      .then((newCard) => {
+      .then((data) => {
+        const newCard = data.data;
+
         setCards([newCard, ...cards]);
         closeAllPopups();
       })

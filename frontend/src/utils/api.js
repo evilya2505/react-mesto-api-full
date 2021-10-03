@@ -99,7 +99,7 @@ class Api {
 
   // Сохранить информацию о том, что поставлен лайк
   putLike(cardID, token) {
-    return fetch(`${this._baseUrl}/cards/likes/${cardID}`, {
+    return fetch(`${this._baseUrl}/cards/${cardID}/likes`, {
       method: 'PUT',
       headers: {
         ...this._headers,
@@ -111,7 +111,7 @@ class Api {
 
   // Сохранить информацию о том, что лайк был убран
   removeLike(cardID, token) {
-    return fetch(`${this._baseUrl}/cards/likes/${cardID}`, {
+    return fetch(`${this._baseUrl}/cards/${cardID}/likes`, {
       method: 'DELETE',
       headers: {
         ...this._headers,

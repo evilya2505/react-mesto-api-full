@@ -4,10 +4,11 @@ import { CurrentUserContext } from '../contexts/CurrentUserContext';
 function Card({ onCardLike, onDeleteBtn, card, onCardClick }) {
   // Подписывание компонента CurrentUserContext и получение значение контекста
   const currentUser = React.useContext(CurrentUserContext);
+  console.log(currentUser._id, card.owner);
   // Проверяет, является ли текущий пользователь владельцем карточки
-  const isOwn = card.owner._id === currentUser._id;
+  const isOwn = card.owner === currentUser._id || card.owner._id === currentUser._id;
   // Проверяет, есть ли среди лайков лайк текущего пользователя
-  const isLikedByCurrentUser = card.likes.some(i => i._id === currentUser._id);
+  const isLikedByCurrentUser = card.likes.some(i => i === currentUser._id);
 
   // В зависимости от значения isOwn показывает/скрывает кнопку удаления карточки
   const cardDeleteButtonClassName = (
