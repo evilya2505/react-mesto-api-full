@@ -126,11 +126,13 @@ const updateUserInfo = (req, res, next) => {
     .catch(next);
 };
 
+console.log('here 2');
 // Обновление аватара пользователя
 const updateUserAvatar = (req, res, next) => {
   const { avatar } = req.body;
   const { _id } = req.user;
 
+  console.log('here 3');
   User.findByIdAndUpdate(
     _id,
     { avatar },

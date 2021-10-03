@@ -1,7 +1,7 @@
 require('dotenv').config();
 const { celebrate, Joi, errors } = require('celebrate');
 const express = require('express');
-//const helmet = require('helmet');
+const helmet = require('helmet');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cors = require('cors');
@@ -18,7 +18,7 @@ const app = express();
 app.options('*', cors());
 app.use(cors());
 
-//app.use(helmet());
+app.use(helmet());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
