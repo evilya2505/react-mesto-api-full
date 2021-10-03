@@ -4,7 +4,6 @@ import { CurrentUserContext } from '../contexts/CurrentUserContext';
 function Card({ onCardLike, onDeleteBtn, card, onCardClick }) {
   // Подписывание компонента CurrentUserContext и получение значение контекста
   const currentUser = React.useContext(CurrentUserContext);
-  console.log(currentUser._id, card.owner);
   // Проверяет, является ли текущий пользователь владельцем карточки
   const isOwn = card.owner === currentUser._id || card.owner._id === currentUser._id;
   // Проверяет, есть ли среди лайков лайк текущего пользователя

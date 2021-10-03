@@ -318,6 +318,7 @@ function App() {
           <InfoTooltip
             onClose={closeAllPopups}
             isOpen={isTooltipPopupOpen}
+            isSuccessed={isSuccessed}
             imgAlt={isSuccessed ? 'Изображение "успешно"' : 'Изображение "не успешно"'}
             text={isSuccessed ? 'Вы успешно зарегистрировались!' : 'Что-то пошло не так! Попробуйте ещё раз.'}/>
       </div>
