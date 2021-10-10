@@ -46,12 +46,29 @@ const createUser = (req, res, next) => {
       email,
       password: hash,
     }))
-    .then((user) => res.send({ data: user }))
+    .then((user) => {
+      const {
+        name: userName,
+        about: userAbout,
+        avatar: userAvatar,
+        email: userEmail,
+        _id: userID,
+      } = user;
+
+      res.send({
+        data: {
+          name: userName, about: userAbout, avatar: userAvatar, email: userEmail, _id: userID,
+        },
+      });
+    })
     .catch((err) => {
       if (err.name === 'CastError' || err.name === 'ValidationError') {
         throw new BadRequestError(err.message);
       } else if (err.name === 'MongoServerError' && err.code === 11000) {
         throw new ConflictError('Пользователь с таким email уже существует.');
+      } else {
+        console.log(err);
+        throw new Error('Ошибка. Что-то пошло не так.');
       }
     })
     .catch(next);
@@ -126,13 +143,11 @@ const updateUserInfo = (req, res, next) => {
     .catch(next);
 };
 
-console.log('here 2');
 // Обновление аватара пользователя
 const updateUserAvatar = (req, res, next) => {
   const { avatar } = req.body;
   const { _id } = req.user;
 
-  console.log('here 3');
   User.findByIdAndUpdate(
     _id,
     { avatar },

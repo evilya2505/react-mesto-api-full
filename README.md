@@ -22,3 +22,4 @@
 ## Как найти сервер
 * Публичный IP-адрес: 62.84.116.155
 * Домен: https://evilya.nomoredomains.club/
+* Домен сервера: https://api.evilya.nomoredomains.club/ 

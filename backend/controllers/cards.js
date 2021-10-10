@@ -22,6 +22,8 @@ const createCard = (req, res, next) => {
     .catch((err) => {
       if (err.name === 'CastError' || err.name === 'ValidationError') {
         throw new BadRequestError('Переданы неккоректные данные.');
+      } else {
+        throw new Error('Ошибка. Что-то пошло не так.');
       }
     })
     .catch(next);

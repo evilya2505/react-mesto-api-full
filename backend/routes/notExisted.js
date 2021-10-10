@@ -3,9 +3,9 @@ const NotFoundError = require('../errors/NotFoundError');
 
 const notFoundError = new NotFoundError('Запрашиваемый ресурс не найден.');
 
-router.all('*', (req, res) => {
-  Promise.reject(notFoundError)
-    .catch((error) => res.status(error.statusCode).send({ message: `${error.name}: ${error.message}` }));
+router.all('*', () => {
+  // Выбрасывает ошибку
+  throw notFoundError;
 });
 
 module.exports = router;

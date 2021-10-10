@@ -58,6 +58,9 @@ app.use(auth);
 app.use('/users', require('./routes/users'));
 app.use('/cards', require('./routes/cards'));
 
+// Роут неизвестного маршрута
+app.use('*', require('./routes/notExisted'));
+
 // Подключение логгера ошибок
 app.use(errorLogger);
 
@@ -68,7 +71,5 @@ app.use((err, req, res, next) => {
 
   res.status(statusCode).send({ message: `${name}: ${message}` });
 });
-
-app.all('*', require('./routes/notExisted'));
 
 app.listen(PORT);
